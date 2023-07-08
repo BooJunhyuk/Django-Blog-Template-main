@@ -1,0 +1,94 @@
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOME</title>
+    <style>
+        body{
+            text-align: center;
+        }
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        nav{
+            display: fixed;
+        }
+        .wrapper{
+            background-color: rgb(217, 198, 120);
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: left;
+            
+        }
+        .right{
+            margin-left: auto;
+            margin-right: 20px;
+
+        }
+        .block{
+            display: inline;
+            margin-left: 20px;
+
+        }
+        .block a{
+            text-decoration: none;
+            font-size: 20px;
+            color: white;
+            font-weight: bold;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div style="margin-bottom: 30px;">
+            <a href="{% url 'home' %}">MY MBTI HOME</a>
+        </div>
+    </header>
+    <nav>
+        <div class="wrapper">
+            <div class="left">
+                <div class="block">
+                    <a href="{% url 'community' %}">글 목록</a>
+                </div>
+                <div class="block">
+                    <a href = "{% url 'new' %}">글 작성</a>
+                </div>
+            </div>
+            <div class="right">
+                
+                {% if request.user.is_authenticated %}
+                    <div class="block">
+                        <a href="{% url 'mbtitest' %}"> MBTI TEST </a>
+                    </div>
+                    <div class="block">
+                        <a href="{% url 'accounts:logout' %}"> 로그아웃 </a>
+                    </div>
+                {% else %}
+                    <div class="block">
+                        <a href="{% url 'accounts:login' %}"> 로그인 </a>
+                    </div>
+                {% endif %}
+
+            </div>
+            
+        </div>
+        
+    </nav>
+
+
+
+        <!-- name을 이용해 하드코딩 하지 않고 url을 작성한 것  -->
+</body>
+</html>

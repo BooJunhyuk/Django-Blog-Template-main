@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>회원가입</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .signup_field{
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        fieldset{
+            width: 70%;
+            display: flex;
+            justify-content: center;
+        }
+        #submit{
+            margin:auto;
+        }
+        .alert{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    <br>
+    <div class="signup_field">
+        <fieldset>
+            <legend style="text-align: center;">sign up</legend>
+            <form action="{% url 'accounts:signup' %}" method="post">
+                {% csrf_token %}
+                ID : <input type="text" id="user_id" name="username" required><br><br>
+                PW : <input type="password" id="user_pw" name="password1" required><br><br>
+                PW 확인 : <input type="password" id="user_pw" name="password2" required><br><br>
+                <input type="submit" value="회원 가입" id="submit"><br>
+            </form>
+        </fieldset>
+    </div>
+    
+    <div class="alert">
+        {% for field in form %}
+        <!-- 필드 오류 -->
+        {% if field.errors %}
+        <div>
+            <strong>{{ field.label }}</strong>
+            {{ field.errors }}
+        </div>
+        {% endif %}
+        {% endfor %}
+        <!-- 넌필드 오류 -->
+        {% for error in form.non_field_errors %}
+        <div>
+            <strong>{{ error }}</strong>
+        </div>
+        {% endfor %}
+    </div>
+
+</body>
+</html>

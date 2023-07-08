@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .btn{
+            display: inline-block;
+
+        }
+        #hidden_form{
+            display: block;
+        }
+        
+    </style>
+    
+</head>
+<body>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    <div>
+        <table border="1" style="border-collapse: collapse; width: 80%;">
+            <tr>
+                <td>
+                    <p> 제목 </p>
+                </td>
+                <td>
+                    <p>{{ post.headline }}</p>
+                </td>
+            </tr>
+            <tr>
+                <td> 작성자 </td>
+                <td>
+                    {{ post.writer }}
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    MBTI : 
+                    {% if post.writer.mbti %}
+                        {{ post.writer.mbti }}
+                    {% else %}
+                        NONE
+                    {% endif %}
+                </td>
+            </tr>
+            <tr style="min-height: 500px;">
+                <td>
+                    <p> 내용   </p>
+                </td>
+                <td>
+                    <p>{{ post.content }}</p>
+                </td>
+            </tr>
+        </table>
+        
+        {% if request.user == post.writer %}
+            <a href="{% url 'edit' post.id %}">수정하기</a>
+            <form action="{% url 'delete' post.id %}" method="post">
+                {% csrf_token %}
+                <input type="submit" value="삭제하기">
+            </form>
+        {% endif %}
+        <br><br><br>
+        <table  border="1" style="border-collapse: collapse; width: 80%;">
+            <tr>
+                <td>
+                    댓글 작성
+                </td>
+                <td>
+                    <form action="{% url 'detail' post.id %}" method="post">
+                        {% csrf_token %}
+                        <input type="text" name="comment_text">
+                        <input type="submit" value="작성">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        비밀 글 : <input type="checkbox" name="secret">
+                        익명 글 : <input type="checkbox" name="anonymous">
+                    </form>
+                </td>
+            </tr>
+            {% for comment in post.comment_set.all %}
+    <tr>
+        <td>
+            {% if comment.is_anonymous %}
+                익명의 작성자
+            {% else %}
+                작성자 : {{ comment.writer }}
+            {% endif %}
+            
+            <br>MBTI : 
+            {% if comment.writer.mbti %}
+                {{ comment.writer.mbti }}
+            {% else %}
+                NONE
+            {% endif %}
+            <br>
+            {% if comment.is_secret %}
+                (비밀글)
+            {% endif %}
+        </td> 
+        <td>
+            {% if comment.is_secret%}
+                {% if request.user == comment.writer or request.user.is_staff%}
+                    <p name="comment_text">{{ comment.content }}</p>
+                {% endif %}
+            {% else %}
+                <p name="comment_text">{{ comment.content }}</p>
+            {% endif %}
+            {% if request.user == comment.writer %}
+            <div> 
+                <input type="button" value="누르면 hidden_form이 나오는 버튼" name="edit_button">
+                <div name="hidden_form" id="hidden_form">
+                    <form action="{% url 'edit_comment' comment.id %}" method="post" class="btn">
+                        {% csrf_token %}
+                        <input type="text" name="edited_comment" value="{{ comment.content }}">
+                        <input type="submit" value="수정">
+                    </form> 
+                </div>
+                
+                <form action="{% url 'delete_comment' comment.id %}" method="post" class="btn">
+                    {% csrf_token %}
+                    <input type="submit" value="삭제">
+                </form> 
+            </div>
+            {% endif %}
+        </td>
+    </tr>
+{% endfor %}
+            
+        </table>
+    </div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+{% block title %} 회원가입 {% endblock %}
+
+{% block content %}
+
+{% if messages %}
+	{% for message in messages %}
+           {{ message.tags }}	{{ message.message }}
+	{% endfor %}
+{% endif %}
+
+<form action="" method="POST">
+    {% csrf_token %}
+    <div>
+        {{ form.as_p }}
+    </div>
+    <div>
+        <input type="submit">
+    </div>
+</form>
+{% endblock %}

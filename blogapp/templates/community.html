@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI Community</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    {% if request.user %}
+        <p> 나의 닉네임 : 
+            {% if request.user.mbti %}
+                {{ request.user.mbti }}인 
+            {% endif %}
+            {{ request.user }}
+            {% if request.user.is_staff %}
+            (관리자)
+            {% endif %}
+        </p>
+        
+    {% else %}
+        <p> 회원가입을 해주세요! </p>
+    {% endif %}
+
+    <a href="{% url 'new' %}">글 작성하기</a>
+
+    {% if post_list %}
+    <ul>
+    {% for post in post_list %}
+        <li><a href="{% url 'detail' post.id %}">{{ post.headline }}</a>
+        <br> 작성자 : {{ post.writer }} | MBTI : {{ post.writer.mbti }}
+        </li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>글 목록이 없습니다.</p>
+{% endif %}
+</body>
+</html>

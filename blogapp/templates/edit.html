@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>edit</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+    </style>
+    
+</head>
+<body>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    <div>
+        <form action="" method="post">
+            {% csrf_token %}
+            <table border="1" style="border-collapse: collapse; width: 80%;">
+                <tr>
+                    <td>
+                        <p> 제목 </p>
+                    </td>
+                    <td>
+                        <p> <input type="text" value="{{ post.headline }}" name="headline"> </p>
+                    </td>
+                </tr>
+
+                <tr style="min-height: 500px;">
+                    <td>
+                        <p> 내용   </p>
+                    </td>
+                    <td>
+                        <p> <textarea name="content" cols="30" rows="10">{{ post.content }}</textarea> </p>
+                            
+                    </td>
+                </tr>
+            </table>
+            <input type="submit" value="제출">
+        </form>
+</body>
+</html>

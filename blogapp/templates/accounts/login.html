@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        .login_field{
+            display: flex;
+            justify-content: center;
+        }
+        fieldset{
+            width: 70%;
+            display: flex;
+            justify-content: center;
+        }
+        .block{
+            border: 1px solid black;
+            border-radius: 20px;
+            width: 80px;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            margin: auto;
+
+        }
+        .block a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+
+        }
+        .alert{
+            margin-top: 20px;
+            text-align: center;
+
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div>
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+   <br>
+    <div class="login_field">
+        <fieldset>
+            <legend style="text-align: center;">login</legend>
+            <form action="{% url 'accounts:login' %}" method="POST">
+                {% csrf_token %}
+                <br><label for="username">id : </label>
+                <input type="text" id="user_id" name="username" value="{{ form.username.value|default_if_none:'' }}"><br><br>
+                <label for="password">pw : </label>
+                <input type="password" id="user_pw" name="password" value="{{ form.password.value|default_if_none:'' }}">
+                <br><br>
+                <input type="submit" style="margin:auto; display: block;" value="로그인">
+                <br>
+                <div class="block">
+                    <a href="{% url 'accounts:signup' %}"> 회원가입 </a>
+                </div>
+                {% load socialaccount %}
+
+<a href="{% provider_login_url 'kakao' method='oauth2' %}">카카오 로그인</a>
+
+
+
+
+            </form>
+            <br>
+        </fieldset>
+    </div>
+        {% if form.errors %}
+        <div class="alert">
+            {% for field in form %}
+            {% if field.errors %}
+            <div>
+                <strong>{{ field.label }}</strong>
+                {{ field.errors }}
+            </div>
+            {% endif %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+            <div>
+                <strong>{{ error }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    
+
+
+    
+    
+
+</body>
+</html>

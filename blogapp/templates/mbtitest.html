@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI TEST</title>
+    <style>
+        header{
+            text-align: center;
+        }
+        header a{
+            text-decoration: none;
+            color: black;
+            font-weight: bold;
+            font-size: 30px;
+        }
+        form{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div style="text-align: center; font-weight: bold;">
+            <a href="{% url 'home' %}">MBTI</a>
+        </div>
+    </header>
+    
+     <br>
+    <fieldset>
+        <legend style="text-align: center;">MBTI TEST</legend>
+        <form action="{% url 'mbtitest' %}" method="post">
+            {% csrf_token %}
+            1. 나는 혼자 있는 시간을 좋아한다. <br>
+            YES : <input type="radio" name="first_question" value="I" required> &nbsp;&nbsp;&nbsp;&nbsp;
+            NO : <input type="radio" name="first_question" value="E"> <br><br>
+            2. 나는 혼자 있는 시간에 재미있는 상상을 주로 하곤 한다. <br>
+            YES : <input type="radio" name="second_question" value="N" required>&nbsp;&nbsp;&nbsp;&nbsp;
+            NO : <input type="radio" name="second_question" value="S"> <br><br>
+            3. 나는 영화를 보면서 눈물을 흘린 적이 있다. <br>
+            YES : <input type="radio" name="third_question" value="F" required> &nbsp;&nbsp;&nbsp;&nbsp;
+            NO : <input type="radio" name="third_question" value="T"> <br><br>
+            4. 현재 나의 책상은 정리되어 있다. <br>
+            YES : <input type="radio" name="fourth_question" value="J" required> &nbsp;&nbsp;&nbsp;&nbsp;
+            NO : <input type="radio" name="fourth_question" value="P"> <br><br>
+            <input type="submit" value="제출">
+        </form>
+    </fieldset>
+   
+</body>
+</html>
