@@ -7,7 +7,20 @@ from django.utils import timezone
 
 
 
-from .models import Post,Comment
+
+from rest_framework.response import Response
+from rest_framework import generics
+from rest_framework import mixins
+from rest_framework.decorators import api_view
+from .serializers import PostBaseModelSerializer ,PostSerializer,CategorySerializer,UserSerializer,CommentSerializer
+
+
+
+
+
+
+
+from .models import Post,Comment,Category
 User = get_user_model()
 
 
@@ -28,6 +41,49 @@ def new(request):
             writer = writer,
         )
         return HttpResponseRedirect('/community')
+
+@api_view(['GET'])# 카테고리 별 게시글 조회
+def get_posts(request, category_id):
+    posts = Post.objects.filter(category = category_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])# 특정 유저가 작성한 댓글 조회
+def get_comments_user(request, writer_id):
+    comments = Comment.objects.filter(writer = writer_id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])# 특정 유저가 작성한 게시물 조회
+def get_posts_user(request, writer_id):
+    posts =  Post.objects.filter(writer = writer_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+
+@api_view(['GET'])# 내가 작성한 게시글 조회
+def get_my_posts(request):
+    print(request.user.id)
+    user_id = request.user.id
+    posts = Post.objects.filter(writer = user_id)
+    serializer = PostSerializer(posts, many=True)
+    return Response(serializer.data)
+
+@api_view(['GET'])# 내가 작성한 댓글 조회
+def get_my_comments(request):
+    user_id = request.user.id
+    comments = Comment.objects.filter(writer = user_id)
+    serializer = CommentSerializer(comments, many=True)
+    return Response(serializer.data)
+
+class PostListGenericAPIView(generics.ListCreateAPIView):
+    queryset = Post.objects.all()
+    serializer_class = PostBaseModelSerializer
+# 이거 한줄이면 CRUD를 모두 가능하게 할 수 있다.
+# 물론 이 코드는 list, create만 가능하다
+# 참고: list와 retrieve는 같은 read지만 엄연히 다르다
+# list : 객체 모두 불러오기, retrieve : 한 인스턴스의 정보만 불러오기   
+
 
 
 def community(request):
@@ -151,7 +207,10 @@ def delete_comment(request,comment_id):
         post = get_object_or_404(Post,pk=comment.post.id)
         context = {'post':post,}
         return render(request,'detail.html',context)
+    
+    
+    
+####################### summerthon ############################
 
-
-
-
+#def metalcare(request, )
+    

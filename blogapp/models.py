@@ -61,7 +61,7 @@ class Comment(models.Model): # 일대다 구조
     is_anonymous = models.BooleanField(verbose_name='익명글',default=False) # 익명글인지
     def __str__(self):
         return self.content
-    #comment의 이름을 comment 내용으로 바꾸기 위해 변경
+    #comment의 9이름을 comment 내용으로 바꾸기 위해 변경
 
 
 class Refly(models.Model): # 일대다 구조
@@ -95,3 +95,93 @@ ex) ->  Operations to perform:
 
 sqlite 설치해서 확인해보면 데이터 확인 가능
 '''
+
+
+
+#####################  summerthon model 추가 ###############################
+
+# 성인ADHD, 분노조절장애, 알코올중독, 우울증 
+
+#class mental_illness(models.Model):
+#class adult_ADHD(models.Model):    
+# adult_ADHD
+# IED(Intermittent Explosive Disorder) 
+# Depressive disorder
+# alcoholism
+
+
+
+
+
+
+
+'''class mental_illness_category(models.Model): # 정신질환명 4가지 분리를 위한 카테고리 -> 외래키로 활용 예정
+    name = models.CharField(max_length=200) #admin 페이지에서 4가지 병명 추가 예정 
+'''
+
+
+
+
+
+
+
+'''class adult_ADHD(models.Model):
+    testId = models.CharField(verbose_name= '정신질환명 ID', max_length=50)
+    test_num = models.IntegerField(verbose_name= '문제 번호')
+    content = models.CharField(verbose_name='집중도')
+    content = models.CharField(verbose_name='집중도')
+    test_score1 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score2 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score3 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score4 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score5 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score6 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score7 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score8 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score9 = models.FloatField(verbose_name= '1번 문제의 점수')
+    test_score10 = models.FloatField(verbose_name= '1번 문제의 점수')
+    
+    
+    def __str__(self):
+        return self.testId
+ '''
+    
+class Question(models.Model):
+    CHOICE_TYPE = (
+        ('text', 'Text'),
+        ('single', 'Single Choice'),
+        ('multiple', 'Multiple Choice'),
+        ('number', 'Number'),
+    )
+
+    #survey = models.ForeignKey(Survey, related_name='questions', on_delete=models.CASCADE)
+    text = models.CharField(max_length=1000)
+    type = models.CharField(choices=CHOICE_TYPE, default='text', max_length=10)
+    is_number = models.BooleanField(default=False)  # New Field
+
+    def __str__(self):
+        return self.text
+
+
+
+class mental_illness(models.Model): #정신질환 class
+    #Category = models.ForeignKey(mental_illness_category, on_delete=models.CASCADE)
+    name = models.CharField(verbose_name = '정신질환명', max_length=300)
+    # adult_ADHD, IED(Intermittent Explosive Disorder), Depressive disorder, alcoholism
+    
+    def __str__(self):
+        return self.name # admin에서 4가지 적고 
+
+class Response(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    testId = models.ForeignKey(mental_illness, on_delete=models.CASCADE)
+    score1 = models.FloatField(verbose_name='answer1')
+    score2 = models.FloatField(verbose_name='answer2')
+    score3 = models.FloatField(verbose_name='answer3')
+    score4 = models.FloatField(verbose_name='answer4')
+    score5 = models.FloatField(verbose_name='answer5')
+    score6 = models.FloatField(verbose_name='answer6')
+    score7 = models.FloatField(verbose_name='answer7')
+    score8 = models.FloatField(verbose_name='answer8')
+    score9 = models.FloatField(verbose_name='answer9')
+    score10 = models.FloatField(verbose_name='answer10')    
