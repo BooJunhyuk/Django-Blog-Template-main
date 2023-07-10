@@ -33,3 +33,19 @@ class PostBaseModelSerializer(serializers.ModelSerializer):
 class PostListModelSerializer(PostBaseModelSerializer):
     class Meta(PostBaseModelSerializer.Meta):
         exclude = "__all__"        
+        
+        
+class ResponseModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Response
+        fields ='__all__'
+        
+        
+class MentalModelSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = mental_illness
+        fields ='__all__'
+            
+        
+        
+                

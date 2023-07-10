@@ -184,4 +184,7 @@ class Response(models.Model):
     score7 = models.FloatField(verbose_name='answer7')
     score8 = models.FloatField(verbose_name='answer8')
     score9 = models.FloatField(verbose_name='answer9')
-    score10 = models.FloatField(verbose_name='answer10')    
+    score10 = models.FloatField(verbose_name='answer10')
+    
+    def __str__(self):
+        return self.testId
