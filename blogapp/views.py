@@ -4,7 +4,7 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse
 from django.contrib.auth import get_user_model
 from django.utils import timezone
-
+from rest_framework.views import APIView
 
 
 
@@ -12,15 +12,16 @@ from rest_framework.response import Response
 from rest_framework import generics
 from rest_framework import mixins
 from rest_framework.decorators import api_view
-from .serializers import PostBaseModelSerializer ,PostSerializer,CategorySerializer,UserSerializer,CommentSerializer
+from .serializers import PostBaseModelSerializer ,PostSerializer,CategorySerializer,UserSerializer,CommentSerializer,ResponseModelSerializer,MentalModelSerializer
 
 
 
 
 
+from drf_yasg.utils import swagger_auto_schema
+from drf_yasg import openapi
 
-
-from .models import Post,Comment,Category
+from .models import Post,Comment,Category,mental_illness,Response
 User = get_user_model()
 
 
@@ -213,4 +214,11 @@ def delete_comment(request,comment_id):
 ####################### summerthon ############################
 
 #def metalcare(request, )
+
+
+
+class ResponseAPI(APIView):
+    
+    #request = [testId(string), id(int), score(float)]
+    def response(self,request):
     

@@ -146,7 +146,7 @@ sqlite 설치해서 확인해보면 데이터 확인 가능
         return self.testId
  '''
     
-class Question(models.Model):
+'''class Question(models.Model):
     CHOICE_TYPE = (
         ('text', 'Text'),
         ('single', 'Single Choice'),
@@ -161,7 +161,7 @@ class Question(models.Model):
 
     def __str__(self):
         return self.text
-
+'''
 
 
 class mental_illness(models.Model): #정신질환 class
@@ -187,4 +187,4 @@ class Response(models.Model):
     score10 = models.FloatField(verbose_name='answer10')
     
     def __str__(self):
-        return self.testId
+        return self.testId  # 수정 필요
