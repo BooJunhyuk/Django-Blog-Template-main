@@ -1,11 +1,11 @@
-FROM python:3.10.0
+FROM python:3
+WORKDIR /usr/src/app
 
-WORKDIR /Django-Blog-Template-main
+COPY requirements.txt ./
+RUN pip install -r requirements.txt
 
 COPY . .
 
-RUN pip install -r requirements.txt
-
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
-
 EXPOSE 8000
+
+CMD ["gunicorn", "--bind", "0.0.0.0:8000", "mentaltest.wsgi:application"]
